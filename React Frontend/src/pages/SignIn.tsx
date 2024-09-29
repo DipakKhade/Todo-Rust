@@ -1,6 +1,4 @@
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -12,28 +10,25 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { AlertCircle } from "lucide-react";
+import { AlertCircle, Axis3D } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { BACKEND_URL } from "@/lib";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const router = useRouter();
+  const router = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-
-    // Here you would typically make an API call to your authentication endpoint
-    // For this example, we'll just simulate a successful login
     try {
-      // Simulating an API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      // If login is successful, redirect to the todos page
-      router.push("/todos");
+      const res = await axios.post(`${BACKEND_URL}/signin`);
+      console.log(res);
     } catch (err) {
-      setError("Invalid email or password");
+      console.log(err);
     }
   };
 
@@ -85,9 +80,9 @@ export default function SignIn() {
         <CardFooter className="flex justify-center">
           <p className="text-sm text-gray-600">
             Don't have an account?{" "}
-            <Link href="/signup" className="text-blue-600 hover:underline">
+            <a href="/signup" className="text-blue-600 hover:underline">
               Sign up
-            </Link>
+            </a>
           </p>
         </CardFooter>
       </Card>

@@ -25,8 +25,11 @@ export default function SignIn() {
     e.preventDefault();
     setError("");
     try {
-      const res = await axios.post(`${BACKEND_URL}/signin`);
-      console.log(res);
+      const res = await axios.post(`${BACKEND_URL}/signin`, {
+        email,
+        password,
+      });
+      console.log(res.data);
     } catch (err) {
       console.log(err);
     }

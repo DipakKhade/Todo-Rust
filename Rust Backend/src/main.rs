@@ -7,10 +7,10 @@ use Todo_Rust::signin;
 async fn main() -> std::io::Result<()> {
     HttpServer::new(|| {
         let cors = Cors::default()
-            .allowed_origin("http://localhost:5173/signin")
-            // .allowed_methods(vec!["GET", "POST", "PUT", "DELETE"])
-            // .allowed_headers(vec![header::CONTENT_TYPE, header::AUTHORIZATION])
-            // .supports_credentials()
+            .allowed_origin("http://localhost:5173")
+            .allowed_methods(vec!["GET", "POST", "PUT", "DELETE"])
+            .allowed_headers(vec![header::CONTENT_TYPE, header::AUTHORIZATION])
+            .supports_credentials()
             .max_age(3600);
         App::new().wrap(cors).service(signin::signin_user)
     })

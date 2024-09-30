@@ -10,6 +10,7 @@ dependencies = [
  "actix-web",
  "jsonwebtoken",
  "serde",
+ "wrap",
 ]
 
 [[package]]
@@ -1440,6 +1441,12 @@ name = "windows_x86_64_msvc"
 version = "0.52.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "589f6da84c646204747d1270a2a5661ea66ed1cced2631d546fdfb155959f9ec"
+
+[[package]]
+name = "wrap"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "fe1448512ce8af61400abf971cf1ac3090ef0787caa31eb22c13a9a0d777a1ab"
 
 [[package]]
 name = "zerocopy"

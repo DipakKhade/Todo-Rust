@@ -8,7 +8,7 @@ import SignIn from "./pages/SignIn.tsx";
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/dashboard",
     element: <App />,
   },
   {

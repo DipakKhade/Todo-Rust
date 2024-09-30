@@ -30,6 +30,9 @@ export default function SignIn() {
         password,
       });
       console.log(res.data);
+      if (res.data.token) {
+        router("/dashboard");
+      }
     } catch (err) {
       console.log(err);
     }

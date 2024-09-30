@@ -1,25 +1,46 @@
-use actix_web::{post, web, HttpResponse, Responder};
-use jsonwebtoken::{decode, encode, Algorithm, DecodingKey, EncodingKey, Header, Validation};
+use actix_web::{post, web, HttpResponse};
+use jsonwebtoken::{encode, Algorithm, EncodingKey, Header};
 use serde::{Deserialize, Serialize};
+use std::time::{SystemTime, UNIX_EPOCH};
 
 #[derive(Serialize, Deserialize, Debug)]
-struct user_credentionals {
+struct UserCredentials {
     email: String,
     password: String,
 }
 
-pub fn generate_token(user: user_credentionals) -> Result<String> {
-    let claims = Claims {
-        id: 1,
-        email: user.email.clone(),
-    };
-    let header = Header::new(Algorithm::HS512);
-    encode(&header, &claims, &EncodingKey::from_secret("JWT_SECRET"))
-        .map_err(|_| Error::JWTTokenCreationError)
+#[derive(Serialize, Deserialize)]
+struct Claims {
+    sub: String,
+    // exp: usize,
 }
 
+#[derive(Serialize, Deserialize)]
+struct Res {
+    token: String,
+}
+
+const SECRET_KEY: &[u8] = b"your-secret-key";
+
 #[post("/signin")]
-pub async fn signin_user(user: web::Json<user_credentionals>) -> HttpResponse {
-    println!("{:?} {}", user.email, user.password);
-    HttpResponse::Ok().json(user)
+pub async fn signin_user(user: web::Json<UserCredentials>) -> HttpResponse {
+    println!("Email: {}, Password: {}", user.email, user.password);
+
+    let claims = Claims {
+        sub: user.email.clone(),
+        // exp: expiration,
+    };
+
+    match encode(
+        &Header::default(),
+        &claims,
+        &EncodingKey::from_secret(SECRET_KEY),
+    ) {
+        Ok(token) => {
+            let res = Res { token };
+
+            HttpResponse::Ok().json(res)
+        }
+        Err(_) => HttpResponse::Unauthorized().body("Error creating token"),
+    }
 }

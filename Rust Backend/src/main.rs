@@ -1,10 +1,13 @@
 use actix_cors::Cors;
 use actix_web::http::header;
 use actix_web::{get, post, App, HttpResponse, HttpServer};
+use dotenv::dotenv;
+use mongodb::{options::ClientOptions, Client};
 use Todo_Rust::signin;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
+    dotenv().ok();
     HttpServer::new(|| {
         let cors = Cors::default()
             .allowed_origin("http://localhost:5173")
